@@ -138,11 +138,18 @@ clc; clear; clf;
 P = [2.5, 0, 4, 1;
        0, 0, 3, 4];
 
-fun = @(x) prefun(x,P)
+fun = @(x) pre_fun(x,P);
+x0=[mean(P(1,:)); mean(P(2,:))];
+[loc,val]=fminunc(fun, x0);
+plot(P(1,:), P(2,:), "r*");
+alpha=linspace(0,2*pi);
+Q=[cos(alpha);sin(alpha)]*val+loc;
+plot(Q(1,:),Q(2,:));
+plot(loc(1), loc(2), "bo");
+axis square;
 
-
-function pre_fun(x, P)
-    
+function y=pre_fun(x, P)
+    y = max(sqrt(sum((P - x).^2)));
 end
 
 
